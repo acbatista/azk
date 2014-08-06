@@ -202,7 +202,9 @@ $ azk stop [system_name,...]      # Stops specific systems by names
 $ azk scale [system_name,...] 5   # Starts 5 instances of specific systems
 ```
 
-## Test (for experts only)
+## azk developers
+
+### Test (for experts only)
 
 Note that running these tests requires you to have `azk agent` running.
 
@@ -210,6 +212,15 @@ Note that running these tests requires you to have `azk agent` running.
 $ cd ~/.azk
 $ azk nvm npm install
 $ azk nvm grunt test
+```
+
+### Documentation
+
+```bash
+$ cd ~/.azk
+$ azk start docs
+$ azk shell docs -c "./bin/inve make html"
+# access http://docs.azk.azk.dev
 ```
 
 ## License
