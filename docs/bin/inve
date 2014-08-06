@@ -1,0 +1,5 @@
+#!/bin/sh
+export VIRTUAL_ENV="/azk/pyenv"
+export PATH="$VIRTUAL_ENV/bin:$PATH"
+unset PYTHON_HOME
+exec "${@:-/bin/bash}"

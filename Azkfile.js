@@ -21,19 +21,27 @@ systems({
   },
 
   docs: {
+    // Dependent systems
+    depends: [],
+    provision: [
+      "virtualenv /azk/pyenv",
+      "./bin/inve pip install Sphinx",
+      "./bin/inve pip install --no-use-wheel CherryPy",
+    ],
+    // More images:  http://images.azk.io
     image: "dockerfile/python",
-    //provision: [
-      //'export INSTALL_DIR=/azk/<%= manifest.dir %>/vendor/python',
-      //'pip install --target=$INSTALL_DIR --install-option="--install-scripts=$INSTALL_DIR/bin" sphinx',
-    //],
-    workdir: "/azk/<%= manifest.dir %>",
+    workdir: "/azk/#{system.name}",
+    shell: "/bin/bash",
+    command: "./bin/inve python index.py",
+    // Mounts folders to assigned paths
     mount_folders: {
-      ".": "/azk/<%= manifest.dir %>",
+      './docs': "/azk/#{system.name}",
     },
-    //envs: {
-      //PYTHONPATH: "/azk/<%= manifest.dir %>/vendor/python",
-      //PATH: "/bin:/sbin:/usr/bin:/usr/sbin:/azk/<%= manifest.dir %>/vendor/python/bin"
-    //}
+    scalable: { default: 1 },
+    http: {
+      hostname: "#{system.name}.azk.#{azk.default_domain}",
+    },
+    persistent_folders: [ "/azk/pyenv" ],
   },
 
   dns: {
