@@ -112,8 +112,24 @@ module.exports = function(grunt) {
           'spec/**/*.js',
         ],
         tasks: ['clear', 'newer:traceur']
+      },
+
+      docs: {
+        files: [
+          'Gruntfile.js',
+          'docs/source/**/*.py',
+          'docs/source/**/*.md',
+        ],
+        tasks: ['build_doc']
       }
     },
+
+    exec: {
+      build_doc: {
+        cmd: "azk",
+        args: ['shell', '-t', 'docs', '-c', 'rm -Rf build && ./bin/inve make html'],
+      }
+    }
   });
 
   // load all grunt tasks matching the `grunt-*` pattern
@@ -124,6 +140,8 @@ module.exports = function(grunt) {
     process.stdout.write('\u001B[2J\u001B[0;0f');
   });
 
+  grunt.registerTask('build_doc', ['clear', 'exec:build_doc']);
+  grunt.registerTask('docs', ['clear', 'build_doc', 'watch:docs']);
   grunt.registerTask('test', ['env:test', 'clear', 'newer:traceur', 'mochaTest:test']);
   grunt.registerTask('slow_test', ['env:test', 'clear', 'newer:traceur', 'mochaTest:slow_test']);
   grunt.registerTask('compile', ['clear', 'newer:traceur', 'watch:traceur']);
